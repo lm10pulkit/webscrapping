@@ -1,5 +1,6 @@
 import bs4 as bs
 import urllib.request
+import csv
 
 #class="yt-simple-endpoint style-scope ytd-mini-channel-renderer"
 
@@ -97,18 +98,33 @@ def bfs(link,iter=1):
 		qu=second
 
 	
-	print("no of "+str(count))
-	print("no of "+str(rejected))
+	print("total no of channels extracted :"+str(count))
+	print("total no of channels found repeating :"+str(rejected))
 
 
 	return dictionary
 
-dictionary=bfs("https://www.youtube.com/user/EminemMusic",2)
+def out(csv_name, dictionary):
+	with open(csv_name, 'w') as csv_file:
+	    writer = csv.writer(csv_file)
+	    for key, value in dictionary.items():
+	       writer.writerow([key, value])
 
-for key,value in dictionary.items():
-	print(key+"  "+value)
+print("enter youtube channel link:")
+li = input()
+print("depth of 1 will take less than 1 minute")
+print("depth of 2 will take less than 3 minute")
+print("depth of 3 will take less than 10 minute")
+print("enter depth less than 3:")
+depth = input()
+depth = int(depth)
+print("enter csv filename ")
+csv_name=input()
 
+dictionary= bfs(li,depth)
+out(csv_name,dictionary)
 
+print("the file will be stored in the same directory as the program ")
 
 
 
